@@ -1,0 +1,37 @@
+def buscar():
+  # Límites de búsqueda
+  limite_inferior = 0
+  limite_superior = 40
+
+  # El incremento para identificar el punto de posicionamiento 
+  incremento = 1
+
+  # La búsqueda desde el punto inicial "B"
+  punto_B = 20
+
+  # Movimientos exploratorios en ambos sentidos hasta encontrar la nueva posición de montaje
+  while punto_B >= limite_inferior and punto_B <= limite_superior:
+      # Movimiento exploratorio a la izquierda
+      nueva_posicion_izquierda = punto_B - incremento
+      if es_solucion(nueva_posicion_izquierda):
+          return nueva_posicion_izquierda
+
+      # Movimiento exploratorio a la derecha
+      nueva_posicion_derecha = punto_B + incremento
+      if es_solucion(nueva_posicion_derecha):
+          return nueva_posicion_derecha
+
+      # Actualizar el punto de posicionamiento
+      punto_B += incremento
+
+  # Retornar un None si no se encuentra ninguna solución
+  return None
+
+def es_solucion(posicion):
+  # Verificar si la posición cumple con los criterios del problema
+  # Puedes implementar esta función de acuerdo a los detalles específicos del problema
+  pass
+
+# Ejecutar la búsqueda exhaustiva
+solucion = buscar()
+print("La posición de montaje esta definida en:", solucion)
