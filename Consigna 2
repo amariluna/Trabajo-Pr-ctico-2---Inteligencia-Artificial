@@ -1,0 +1,67 @@
+import heapq
+
+class Nodo:
+    def __init__(self, estado, padre=None, costo=0, heuristica=0):
+        self.estado = estado
+        self.padre = padre
+        self.costo = costo
+        self.heuristica = heuristica
+        
+    def __lt__(self, otro):
+        return (self.costo + self.heuristica) < (otro.costo + otro.heuristica)
+
+def calcular_heuristica(estado_actual, estado_final):
+    x1, y1 = estado_actual
+    x2, y2 = estado_final
+    # Calculando la distancia de Manhattan entre los dos puntos
+    distancia = abs(x2 - x1) + abs(y2 - y1)
+    return distancia
+
+
+def a_estrella(estado_inicial, estado_final):
+    frontera = []
+    heapq.heappush(frontera, Nodo(estado_inicial))
+    explorado = set()
+    
+    while frontera:
+        nodo_actual = heapq.heappop(frontera)
+        
+        if nodo_actual.estado == estado_final:
+            # Reconstruir y devolver el camino
+            camino = []
+            while nodo_actual:
+                camino.append(nodo_actual.estado)
+                nodo_actual = nodo_actual.padre
+            return camino[::-1]
+        
+        explorado.add(nodo_actual.estado)
+        
+        # Expandir nodos
+        for hijo in expandir(nodo_actual.estado):
+            if hijo not in explorado:
+                nuevo_nodo = Nodo(hijo, nodo_actual, nodo_actual.costo + 1, calcular_heuristica(hijo, estado_final))
+                heapq.heappush(frontera, nuevo_nodo)
+    
+    return None
+
+def expandir(estado):
+    movimientos = [(1, 0), (-1, 0), (0, 1), (0, -1)]  # Movimientos posibles: abajo, arriba, derecha, izquierda
+    estados_vecinos = []
+    
+    for dx, dy in movimientos:
+        nuevo_x = estado[0] + dx
+        nuevo_y = estado[1] + dy
+        # Verificar si la posición vecina está dentro 
+        if es_valido(nuevo_x, nuevo_y) and not es_obstaculo(nuevo_x, nuevo_y):
+            estados_vecinos.append((nuevo_x, nuevo_y))
+    
+    return estados_vecinos
+
+
+estado_inicial = (0, 0)
+estado_final = (4, 4)
+camino = a_estrella(estado_inicial, estado_final)
+if camino:
+    print("Se encontró un camino:", camino)
+else:
+    print("No se encontró un camino.")
