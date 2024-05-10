@@ -1,13 +1,13 @@
 def buscar():
   # Límites de búsqueda
   limite_inferior = 0
-  limite_superior = 40
+  limite_superior = 360
 
   # El incremento para identificar el punto de posicionamiento 
   incremento = 1
 
   # La búsqueda desde el punto inicial "B"
-  punto_B = 20
+  punto_B = 0
 
   # Movimientos exploratorios en ambos sentidos hasta encontrar la nueva posición de montaje
   while punto_B >= limite_inferior and punto_B <= limite_superior:
